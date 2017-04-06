@@ -1,4 +1,5 @@
 import sys, fileinput
+from board import board
 
 with open('somefile.txt', 'a') as the_file:
     the_file.seek(0)
@@ -9,6 +10,8 @@ with open("settings.txt","a+") as file:
 
 while True:
 
+    currentboard = board()
+
     for line in fileinput.input():
         with open('somefile.txt', 'a') as the_file:
             the_file.write( line+'\n')
@@ -18,25 +21,26 @@ while True:
         if parts[0] == "settings":
             #store settings
             if parts[1] == "timebank":
-                # print("test")
                 timebank = int(parts[2])
+                
             elif parts[1] == "time_per_move":
-                # print("test")
                 time_per_move = int(parts[2])
+                
             elif parts[1] == "player_names":
-                # print("test")
                 player_names = parts[2]
+                
             elif parts[1] == "your_bot":
-                # print("test")
                 mybot = parts[2]
+                
             elif parts[1] == "your_botid":
-                # print("test")
                 myid = int(parts[2])
                 #oppid = 1 if myid = 2 else 1
 
 
         elif parts[0] == "update":
-            #store settings
+            if parts[2] == "macroboard":
+                mbstr = parts[3]
+                currentboard.setMboard(mbstr)
             print("test")
 
         elif parts[0] == "action":
