@@ -1,5 +1,11 @@
 import sys, fileinput
 
+with open('somefile.txt', 'a') as the_file:
+    the_file.seek(0)
+    the_file.truncate()
+with open("settings.txt","a+") as file:
+    file.seek(0)
+    file.truncate()
 
 while True:
 
@@ -25,7 +31,8 @@ while True:
                 mybot = parts[2]
             elif parts[1] == "your_botid":
                 # print("test")
-                mybotid = int(parts[2])
+                myid = int(parts[2])
+                #oppid = 1 if myid = 2 else 1
 
 
         elif parts[0] == "update":
@@ -33,7 +40,9 @@ while True:
             print("test")
 
         elif parts[0] == "action":
-            sys.stdout.write("place_move 0 0")
+            sys.stdout.write('place_move 0 0\n')
             sys.stdout.flush()
             with open("settings.txt","a+") as file:
-                file.write(str(timebank) + str(time_per_move) + player_names + mybot + str(mybotid))
+                file.write(str(timebank) +"\n"+ str(time_per_move) +"\n"+ player_names + mybot + str(myid)+"\n\n\n")
+
+    
