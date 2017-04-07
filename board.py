@@ -1,4 +1,5 @@
 import random
+random.seed()
 
 
 class board:
@@ -66,3 +67,37 @@ class board:
                     if j == 2 or j == 5 or j == 8:
                         the_file.write("\n")
                 the_file.write("\n")
+    def randXY(self):
+
+        if self.VMB == '0':
+            x = random.randint(0,2)
+            y = random.randint(0,2)
+        elif self.VMB == '1':
+            x = random.randint(3,5)
+            y = random.randint(0,2)
+        elif self.VMB == '2':
+            x = random.randint(6,8)
+            y = random.randint(0,2)
+        elif self.VMB == '3':
+            x = random.randint(0,2)
+            y = random.randint(3,5)
+        elif self.VMB == '4':
+            x = random.randint(3,5)
+            y = random.randint(3,5)
+        elif self.VMB == '5':
+            x = random.randint(6,8)
+            y = random.randint(3,5)
+        elif self.VMB == '6':
+            x = random.randint(0,2)
+            y = random.randint(6,8)
+        elif self.VMB == '7':
+            x = random.randint(3,5)
+            y = random.randint(6,8)
+        elif self.VMB == '8':
+            x = random.randint(6,8)
+            y = random.randint(6,8)
+        with open("tester.txt","a+") as myfile:
+                myfile.write(str(x) + str(y))
+        return x, y
+
+        

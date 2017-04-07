@@ -49,7 +49,10 @@ while True:
             
 
         elif parts[0] == "action":
-            sys.stdout.write('place_move 0 1\n')
+ 
+            x, y = currentboard.randXY()
+            
+            sys.stdout.write('place_move '+str(x)+' '+str(y)+'\n')
             sys.stdout.flush()
             with open("settings.txt","a+") as file:
                 file.write(str(timebank) +"\n"+ str(time_per_move) +"\n"+ player_names + mybot + str(myid)+"\n\n\n")
