@@ -50,7 +50,7 @@ while True:
 
         elif parts[0] == "action":
  
-            x, y = currentboard.randXY()
+            x, y = currentboard.getlegal()
             
             sys.stdout.write('place_move '+str(x)+' '+str(y)+'\n')
             sys.stdout.flush()

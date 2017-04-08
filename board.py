@@ -1,6 +1,12 @@
 import random
 random.seed()
 
+with open('mbfile.txt', 'a') as the_file:
+    the_file.seek(0)
+    the_file.truncate()
+with open("bfile.txt","a+") as file:
+    file.seek(0)
+    file.truncate()
 
 class board:
 
@@ -22,7 +28,8 @@ class board:
             
         elif len(validM) > 1 and len(validM)<9:
             check = "Multiple"
-            self.choice = random.choice(validM)
+            choice = random.choice(validM)
+            self.VMB = str(choice)
                   
         else:
             self.VMB = str(random.randint(0,8))
@@ -34,16 +41,17 @@ class board:
 
     def setBoard(self,bstr):
         bList = bstr.split(",")
+        self.table = []
         
-        a = ["0","1","2","9","10","11","18","19","20"]
-        b = ["3","4","5","12","13","14","21","22","23"]
-        c = ["6","7","8","15","16","17","24","25","26"]
-        d = ["27","28","29","36","37","38","45","46","47"]
-        e = ["30","31","32","39","40","41","48","49","50"]
-        f = ["33","34","35","42","43","44","51","52","53"]
-        g = ["54","55","56","63","64","65","72","73","74"]
-        h = ["57","58","59","66","67","68","75","76","77"]
-        i = ["60","61","62","69","70","71","78","79","80"]
+        a = ["0","1","2","3","4","5","6","7","8"]
+        b = ["9","10","11","12","13","14","15","16","17"]
+        c = ["18","19","20","21","22","23","24","25","26"]
+        d = ["27","28","29","30","31","32","33","34","35"]
+        e = ["36","37","38","39","40","41","42","43","44"]
+        f = ["45","46","47","48","49","50","51","52","53"]
+        g = ["54","55","56","57","58","59","60","61","62"]
+        h = ["63","64","65","66","67","68","69","70","71"]
+        i = ["72","73","74","75","76","77","78","79","80"]
         self.table.append(a)
         self.table.append(b)
         self.table.append(c)
@@ -62,11 +70,9 @@ class board:
 
         with open('bfile.txt', 'a') as the_file:
             for i in self.table:
-                for j in range (0,len(i)):
-                    the_file.write(str(i[j]))
-                    if j == 2 or j == 5 or j == 8:
-                        the_file.write("\n")
-                the_file.write("\n")
+                the_file.write(str(i) + "\n")
+            the_file.write("\n\n")
+                
     def randXY(self):
 
         if self.VMB == '0':
@@ -96,8 +102,25 @@ class board:
         elif self.VMB == '8':
             x = random.randint(6,8)
             y = random.randint(6,8)
-        with open("tester.txt","a+") as myfile:
-                myfile.write(str(x) + str(y))
+        
         return x, y
 
+    def getlegal(self):
+        
+        legal = False
+
+        while legal == False:
+                
+            x, y = self.randXY()
+            if self.table[y][x] == "0":
+                legal = True
+            else:
+                legal = False
+        with open("tester.txt","a+") as testfile:
+            testfile.write(str(x) + str(y) + "\n")
+
+        return x, y
+
+        
+        
         
