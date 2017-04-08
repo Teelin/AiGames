@@ -1,18 +1,23 @@
 import random
 random.seed()
 
-with open('mbfile.txt', 'a') as the_file:
-    the_file.seek(0)
-    the_file.truncate()
-with open("bfile.txt","a+") as file:
-    file.seek(0)
-    file.truncate()
 
 class board:
 
     def __init__(self):
         self.VMB = ""
         self.table =[]
+        self.board1 =[]
+        self.board2 =[]
+        self.board3 =[]
+        self.board4 =[]
+        self.board5 =[]
+        self.board6 =[]
+        self.board7 =[]
+        self.board8 =[]
+        self.board9 =[]
+        self.x = 0
+        self.y = 0
 
     def setMboard(self, mbstr):
         
@@ -35,23 +40,38 @@ class board:
             self.VMB = str(random.randint(0,8))
             check = "random"
             
-        with open('mbfile.txt', 'a') as the_file:
-            the_file.write(check + str(self.VMB)+'\n')
         
 
     def setBoard(self,bstr):
         bList = bstr.split(",")
         self.table = []
-        
-        a = ["0","1","2","3","4","5","6","7","8"]
-        b = ["9","10","11","12","13","14","15","16","17"]
-        c = ["18","19","20","21","22","23","24","25","26"]
-        d = ["27","28","29","30","31","32","33","34","35"]
-        e = ["36","37","38","39","40","41","42","43","44"]
-        f = ["45","46","47","48","49","50","51","52","53"]
-        g = ["54","55","56","57","58","59","60","61","62"]
-        h = ["63","64","65","66","67","68","69","70","71"]
-        i = ["72","73","74","75","76","77","78","79","80"]
+        a = ["0","9","18","27","36","45","54","63","72"]
+        b = ["1","10","19","28","37","46","55","64","73"]
+        c = ["2","11","20","29","38","47","56","65","74"]
+        d = ["3","12","21","30","39","48","57","66","75"]
+        e = ["4","13","22","31","40","49","58","67","76"]
+        f = ["5","14","23","32","41","50","59","68","77"]
+        g = ["6","15","24","33","42","51","60","69","78"]
+        h = ["7","16","25","34","43","52","61","70","79"]
+        j = ["8","17","26","35","44","53","62","71","80"]
+        for i in range(len(a)):
+            a[i] = bList[int(a[i])]
+        for i in range(len(b)):
+            b[i] = bList[int(b[i])]
+        for i in range(len(c)):
+            c[i] = bList[int(c[i])]
+        for i in range(len(d)):
+            d[i] = bList[int(d[i])]
+        for i in range(len(e)):
+            e[i] = bList[int(e[i])]
+        for i in range(len(f)):
+            f[i] = bList[int(f[i])]
+        for i in range(len(g)):
+            g[i] = bList[int(g[i])]
+        for i in range(len(h)):
+            h[i] = bList[int(h[i])]
+        for i in range(len(j)):
+            j[i] = bList[int(j[i])]
         self.table.append(a)
         self.table.append(b)
         self.table.append(c)
@@ -60,50 +80,162 @@ class board:
         self.table.append(f)
         self.table.append(g)
         self.table.append(h)
-        self.table.append(i)
-        for i in range(0,len(self.table)):
-            test = self.table[i]
-            for j in test:
-                ind = test.index(j)
-                
-                self.table[i][ind] = bList[int(j)]
+        self.table.append(j)
+
+        self.board1 = ["0","1","2","9","10","11","18","19","20"]
+        self.board2 = ["3","4","5","12","13","14","21","22","23"]
+        self.board3 = ["6","7","8","15","16","17","24","25","26"]
+        self.board4 = ["27","28","29","36","37","38","45","46","47"]
+        self.board5 = ["30","31","32","39","40","41","48","49","50"]
+        self.board6 = ["33","34","35","42","43","44","51","52","53"]
+        self.board7 = ["54","55","56","63","64","65","72","73","74"]
+        self.board8 = ["57","58","59","66","67","68","75","76","77"]
+        self.board9 = ["60","61","62","69","70","71","78","79","80"]
+        for i in range(len(self.board1)):
+            self.board1[i] = bList[int(self.board1[i])]
+        for i in range(len(self.board2)):
+            self.board2[i] = bList[int(self.board2[i])]
+        for i in range(len(self.board3)):
+            self.board3[i] = bList[int(self.board3[i])]
+        for i in range(len(self.board4)):
+            self.board4[i] = bList[int(self.board4[i])]
+        for i in range(len(self.board5)):
+            self.board5[i] = bList[int(self.board5[i])]
+        for i in range(len(self.board6)):
+            self.board6[i] = bList[int(self.board6[i])]
+        for i in range(len(self.board7)):
+            self.board7[i] = bList[int(self.board7[i])]
+        for i in range(len(self.board8)):
+            self.board8[i] = bList[int(self.board8[i])]
+        for i in range(len(self.board9)):
+            self.board9[i] = bList[int(self.board9[i])]
+
+        '''with open('bfile.txt', 'a') as the_file:
+              for i in self.table:
+                  the_file.write(str(i) + "\n")
+              the_file.write("\n\n")
 
         with open('bfile.txt', 'a') as the_file:
-            for i in self.table:
-                the_file.write(str(i) + "\n")
-            the_file.write("\n\n")
+            the_file.write(str(self.board1)+"\n")
+            the_file.write(str(self.board2)+"\n")
+            the_file.write(str(self.board3)+"\n")
+            the_file.write(str(self.board4)+"\n")
+            the_file.write(str(self.board5)+"\n")
+            the_file.write(str(self.board6)+"\n")
+            the_file.write(str(self.board7)+"\n")
+            the_file.write(str(self.board8)+"\n")
+            the_file.write(str(self.board9)+"\n")
+            the_file.write("\n\n")'''
                 
-    def randXY(self):
 
-        if self.VMB == '0':
-            x = random.randint(0,2)
-            y = random.randint(0,2)
-        elif self.VMB == '1':
-            x = random.randint(3,5)
-            y = random.randint(0,2)
-        elif self.VMB == '2':
-            x = random.randint(6,8)
-            y = random.randint(0,2)
-        elif self.VMB == '3':
-            x = random.randint(0,2)
-            y = random.randint(3,5)
-        elif self.VMB == '4':
-            x = random.randint(3,5)
-            y = random.randint(3,5)
-        elif self.VMB == '5':
-            x = random.randint(6,8)
-            y = random.randint(3,5)
-        elif self.VMB == '6':
-            x = random.randint(0,2)
-            y = random.randint(6,8)
-        elif self.VMB == '7':
-            x = random.randint(3,5)
-            y = random.randint(6,8)
-        elif self.VMB == '8':
-            x = random.randint(6,8)
-            y = random.randint(6,8)
+
         
-        return x, y
+    def getmove(self):
+        valid =[]
+
+    
+        if self.VMB == '0':
+            for i in self.board1:
+                if i == "0":
+                    valid.append(self.board1.index(i))
+            
+            if len(valid) == 9:
+                self.x = 0
+                self.y = 0
+            else:
+                self.x = random.randint(0,2)
+                self.y = random.randint(0,2)
+
+        elif self.VMB == '1':
+            for i in self.board2:
+                if i == "0":
+                    valid.append(self.board2.index(i))
+            if len(valid) == 9:
+                self.x = 3
+                self.y = 0
+            else:
+                self.x = random.randint(3,5)
+                self.y = random.randint(0,2)
+
+        elif self.VMB == '2':
+            for i in self.board3:
+                if i == "0":
+                    valid.append(self.board3.index(i))
+            if len(valid) == 9:
+                self.x = 6
+                self.y = 0
+            else:
+                self.x = random.randint(6,8)
+                self.y = random.randint(0,2)
+
+        elif self.VMB == '3':
+            for i in self.board4:
+                if i == "0":
+                    valid.append(self.board4.index(i))
+            if len(valid) == 9:
+                self.x = 0
+                self.y = 3
+            else:
+                self.x = random.randint(0,2)
+                self.y = random.randint(3,5)
+
+        elif self.VMB == '4':
+            for i in self.board5:
+                if i == "0":
+                    valid.append(self.board5.index(i))
+            if len(valid) == 9:
+                self.x = 3
+                self.y = 3
+            else:
+                self.x = random.randint(3,5)
+                self.y = random.randint(3,5)
+
+        elif self.VMB == '5':
+            for i in self.board6:
+                if i == "0":
+                    valid.append(self.board6.index(i))
+            if len(valid) == 9:
+                self.x = 6
+                self.y = 3
+            else:
+                self.x = random.randint(6,8)
+                self.y = random.randint(3,5)
+
+        elif self.VMB == '6':
+            for i in self.board7:
+                if i == "0":
+                    valid.append(self.board7.index(i))
+            if len(valid) == 9:
+                self.x = 0
+                self.y = 6
+            else:
+                self.x = random.randint(0,2)
+                self.y = random.randint(6,8)
+
+        elif self.VMB == '7':
+            for i in self.board8:
+                if i == "0":
+                    valid.append(self.board8.index(i))
+            if len(valid) == 9:
+                self.x = 3
+                self.y = 6
+            else:
+                self.x = random.randint(3,5)
+                self.y = random.randint(6,8)
+
+        elif self.VMB == '8':
+            for i in self.board9:
+                if i == "0":
+                    valid.append(self.board9.index(i))
+            if len(valid) == 9:
+                self.x = 6
+                self.y = 6
+            else:
+                self.x = random.randint(6,8)
+                self.y = random.randint(6,8)
+
+
+        
 
     def getlegal(self):
         
@@ -111,16 +243,12 @@ class board:
 
         while legal == False:
                 
-            x, y = self.randXY()
-            if self.table[y][x] == "0":
+            self.getmove()
+            
+            if self.table[self.x][self.y] == "0":
                 legal = True
             else:
                 legal = False
-        with open("tester.txt","a+") as testfile:
-            testfile.write(str(x) + str(y) + "\n")
+            
 
-        return x, y
-
-        
-        
         

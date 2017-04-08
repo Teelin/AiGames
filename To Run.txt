@@ -2,6 +2,10 @@ java -cp "lib/java-json.jar;classes" com.theaigames.tictactoe.Tictactoe "python 
 
 java -cp "lib/java-json.jar;classes" com.theaigames.tictactoe.Tictactoe "python D:/AI/PyBot/mybot.py" "node D:\AI\TickTackBot\BotStarter.js" 2>err.txt 1>out.txt
 
+vs Adam
+
+java -cp "lib/java-json.jar;classes" com.theaigames.tictactoe.Tictactoe "python D:/AI/PyBot/mybot.py" "node D:\AI\ai-games-bot-master\ai-games-bot-master\BotStarter.js" 2>err.txt 1>out.txt
+
 
 School
 
