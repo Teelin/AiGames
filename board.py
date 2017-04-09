@@ -5,6 +5,7 @@ random.seed()
 class board:
 
     def __init__(self):
+        self.validM = []
         self.VMB = ""
         self.table =[]
         self.board1 =[]
@@ -18,28 +19,16 @@ class board:
         self.board9 =[]
         self.x = 0
         self.y = 0
+        myid = 0
+        oppid = 0
 
     def setMboard(self, mbstr):
         
-        mbList = mbstr.split(",")
-        validM = []
-        for i in range(0, len(mbList)):
-            if mbList[i] == "-1" or mbList[i] == "-1\n":
-                validM.append(i)
-        
-        if len(validM) == 1:
-            self.VMB = str(validM[0])
-            check = "single"
-            
-        elif len(validM) > 1 and len(validM)<9:
-            check = "Multiple"
-            choice = random.choice(validM)
-            self.VMB = str(choice)
-                  
-        else:
-            self.VMB = str(random.randint(0,8))
-            check = "random"
-            
+        self.mbList = mbstr.split(",")
+        self.validM = []
+        for i in range(0, len(self.mbList)):
+            if self.mbList[i] == "-1" or self.mbList[i] == "-1\n":
+                self.validM.append(i)            
         
 
     def setBoard(self,bstr):
@@ -115,7 +104,7 @@ class board:
                   the_file.write(str(i) + "\n")
               the_file.write("\n\n")
 
-        with open('bfile.txt', 'a') as the_file:
+        with open('ffile.txt', 'a') as the_file:
             the_file.write(str(self.board1)+"\n")
             the_file.write(str(self.board2)+"\n")
             the_file.write(str(self.board3)+"\n")
@@ -129,126 +118,635 @@ class board:
                 
 
 
-        
-    def getmove(self):
-        valid =[]
 
-    
+
+
+    def getMacro(self):
+        board = []
+        
+        if len(self.validM) == 1:
+            self.VMB = str(self.validM[0])
+            check = "single"
+            
+        elif len(self.validM) > 1 and len(self.validM)<9:
+            check = "Multiple"
+            self.VMB = "50"
+            mywin = False
+            mboard = self.mbList
+
+            if self.wincheck(self.oppid,mboard):
+                if self.x == 0 and self.y == 0:
+                    self.VMB = '0'
+                elif self.x == 1 and self.y == 0:
+                    self.VMB = '1'
+                elif self.x == 2 and self.y == 0:
+                    self.VMB = '2'
+                elif self.x == 0 and self.y == 1:
+                    self.VMB = '3'
+                elif self.x == 1 and self.y == 1:
+                    self.VMB = '4'
+                elif self.x == 2 and self.y == 1:
+                    self.VMB = '5'
+                elif self.x == 0 and self.y == 2:
+                    self.VMB = '6'
+                elif self.x == 1 and self.y == 2:
+                    self.VMB = '7'
+                elif self.x == 2 and self.y == 2:
+                    self.VMB = '8'
+                    
+            elif self.wincheck(self.myid,mboard):
+                if self.x == 0 and self.y == 0:
+                    self.VMB = '0'
+                elif self.x == 1 and self.y == 0:
+                    self.VMB = '1'
+                elif self.x == 2 and self.y == 0:
+                    self.VMB = '2'
+                elif self.x == 0 and self.y == 1:
+                    self.VMB = '3'
+                elif self.x == 1 and self.y == 1:
+                    self.VMB = '4'
+                elif self.x == 2 and self.y == 1:
+                    self.VMB = '5'
+                elif self.x == 0 and self.y == 2:
+                    self.VMB = '6'
+                elif self.x == 1 and self.y == 2:
+                    self.VMB = '7'
+                elif self.x == 2 and self.y == 2:
+                    self.VMB = '8'
+                
+            else:
+            
+                for i in self.validM:
+                    if str(i) == '0':
+                        board = self.board1
+                        b = '0'
+                    elif str(i) == '1':
+                        board = self.board2
+                        b = '1'
+                    elif str(i) == '2':
+                        board = self.board3
+                        b = '2'
+                    elif str(i) == '3':
+                        board = self.board4
+                        b = '3'
+                    elif str(i) == '4':
+                        board = self.board5
+                        b = '4'
+                    elif str(i) == '5':
+                        board = self.board6
+                        b = '5'
+                    elif str(i) == '6':
+                        board = self.board7
+                        b = '6'
+                    elif str(i) == '7':
+                        board = self.board8
+                        b = '7'
+                    elif str(i) == '8':
+                        board = self.board9
+                        b = '8'
+                        
+                    if self.wincheck(self.myid,board):
+                        self.VMB = b
+                        mywin = True
+                    elif self.wincheck(self.oppid,board) and mywin == False:
+                        self.VMB = b
+                        
+                
+            if self.VMB == "50":
+                choice = random.choice(self.validM)
+                self.VMB = str(choice)
+                    
+                  
+        else:
+            choice = ['0','2','4','6','8']
+            self.VMB = random.choice(choice)
+            check = "random"
+        
+        '''with open('bfile.txt', 'a') as the_file:
+            
+            the_file.write(check + ' '+self.VMB + "\n\n")'''
+
+
+
+
+
+
+
+        
+    def getmove(self,pid):
+        valid =[]
+        myspots =[]
+        self.myid = pid
+        
+        if self.myid == 1:
+            self.oppid = 2
+        else:
+            self.oppid = 1
+            
+        self.getMacro()
+        
         if self.VMB == '0':
             for i in self.board1:
                 if i == "0":
                     valid.append(self.board1.index(i))
+                elif i == str(self.myid):
+                    myspots.append(self.board1.index(i))
             
             if len(valid) == 9:
                 self.x = 0
                 self.y = 0
             else:
-                self.x = random.randint(0,2)
-                self.y = random.randint(0,2)
+
+                if self.wincheck(self.myid,self.board1):
+                    self.x += 0
+                    self.y += 0
+                elif self.wincheck(self.oppid,self.board1):
+                    self.x += 0
+                    self.y += 0
+                else:
+                    if len(myspots)>0:
+                        self.nextTo(myspots,self.board1)
+                        self.x += 0
+                        self.y += 0
+                    else: 
+                        self.x = random.randint(0,2)
+                        self.y = random.randint(0,2)
 
         elif self.VMB == '1':
             for i in self.board2:
                 if i == "0":
                     valid.append(self.board2.index(i))
+                elif i == str(self.myid):
+                    myspots.append(self.board2.index(i))
+            
             if len(valid) == 9:
-                self.x = 3
+                self.x = 4
                 self.y = 0
             else:
-                self.x = random.randint(3,5)
-                self.y = random.randint(0,2)
 
+                if self.wincheck(self.myid,self.board2):
+                    self.x += 3
+                    self.y += 0
+                elif self.wincheck(self.oppid,self.board2):
+                    self.x += 3
+                    self.y += 0
+                else:
+                    if len(myspots)>0:
+                        self.nextTo(myspots,self.board2)
+                        self.x += 3
+                        self.y += 0
+                    else: 
+                        self.x = random.randint(3,5)
+                        self.y = random.randint(0,2)
+                        
         elif self.VMB == '2':
             for i in self.board3:
                 if i == "0":
                     valid.append(self.board3.index(i))
+                elif i == str(self.myid):
+                    myspots.append(self.board3.index(i))
+            
             if len(valid) == 9:
-                self.x = 6
+                self.x = 8
                 self.y = 0
             else:
-                self.x = random.randint(6,8)
-                self.y = random.randint(0,2)
 
+                if self.wincheck(self.myid,self.board3):
+                    self.x += 6
+                    self.y += 0
+                elif self.wincheck(self.oppid,self.board3):
+                    self.x += 6
+                    self.y += 0
+                else:
+                    if len(myspots)>0:
+                        self.nextTo(myspots,self.board3)
+                        self.x += 6
+                        self.y += 0
+                    else: 
+                        self.x = random.randint(6,8)
+                        self.y = random.randint(0,2)
+                        
         elif self.VMB == '3':
             for i in self.board4:
                 if i == "0":
                     valid.append(self.board4.index(i))
+                elif i == str(self.myid):
+                    myspots.append(self.board4.index(i))
+            
             if len(valid) == 9:
                 self.x = 0
-                self.y = 3
+                self.y = 4
             else:
-                self.x = random.randint(0,2)
-                self.y = random.randint(3,5)
 
+                if self.wincheck(self.myid,self.board4):
+                    self.x += 0
+                    self.y += 3
+                elif self.wincheck(self.oppid,self.board4):
+                    self.x += 0
+                    self.y += 3
+                else:
+                    if len(myspots)>0:
+                        self.nextTo(myspots,self.board4)
+                        self.x += 0
+                        self.y += 3
+                    else: 
+                        self.x = random.randint(0,2)
+                        self.y = random.randint(3,5)
+                        
         elif self.VMB == '4':
             for i in self.board5:
                 if i == "0":
                     valid.append(self.board5.index(i))
+                elif i == str(self.myid):
+                    myspots.append(self.board5.index(i))
+            
             if len(valid) == 9:
-                self.x = 3
-                self.y = 3
+                self.x = 4
+                self.y = 4
             else:
-                self.x = random.randint(3,5)
-                self.y = random.randint(3,5)
 
+                if self.wincheck(self.myid,self.board5):
+                    self.x += 3
+                    self.y += 3
+                elif self.wincheck(self.oppid,self.board5):
+                    self.x += 3
+                    self.y += 3
+                else:
+                    if len(myspots)>0:
+                        self.nextTo(myspots,self.board5)
+                        self.x += 3
+                        self.y += 3
+                    else: 
+                        self.x = random.randint(3,5)
+                        self.y = random.randint(3,5)
+                        
         elif self.VMB == '5':
             for i in self.board6:
                 if i == "0":
                     valid.append(self.board6.index(i))
+                elif i == str(self.myid):
+                    myspots.append(self.board6.index(i))
+            
             if len(valid) == 9:
-                self.x = 6
-                self.y = 3
+                self.x = 8
+                self.y = 4
             else:
-                self.x = random.randint(6,8)
-                self.y = random.randint(3,5)
 
+                if self.wincheck(self.myid,self.board6):
+                    self.x += 6
+                    self.y += 3
+                elif self.wincheck(self.oppid,self.board6):
+                    self.x += 6
+                    self.y += 3
+                else:
+                    if len(myspots)>0:
+                        self.nextTo(myspots,self.board6)
+                        self.x += 6
+                        self.y += 3
+                    else: 
+                        self.x = random.randint(6,8)
+                        self.y = random.randint(3,5)
+                    
         elif self.VMB == '6':
             for i in self.board7:
                 if i == "0":
                     valid.append(self.board7.index(i))
+                elif i == str(self.myid):
+                    myspots.append(self.board7.index(i))
+            
             if len(valid) == 9:
                 self.x = 0
-                self.y = 6
+                self.y = 8
             else:
-                self.x = random.randint(0,2)
-                self.y = random.randint(6,8)
 
+                if self.wincheck(self.myid,self.board7):
+                    self.x += 0
+                    self.y += 6
+                elif self.wincheck(self.oppid,self.board7):
+                    self.x += 0
+                    self.y += 6
+                else:
+                    if len(myspots)>0:
+                        self.nextTo(myspots,self.board7)
+                        self.x += 0
+                        self.y += 6
+                    else: 
+                        self.x = random.randint(0,2)
+                        self.y = random.randint(6,8)
+                        
         elif self.VMB == '7':
             for i in self.board8:
                 if i == "0":
                     valid.append(self.board8.index(i))
+                elif i == str(self.myid):
+                    myspots.append(self.board8.index(i))
+            
             if len(valid) == 9:
-                self.x = 3
-                self.y = 6
+                self.x = 4
+                self.y = 8
             else:
-                self.x = random.randint(3,5)
-                self.y = random.randint(6,8)
 
+                if self.wincheck(self.myid,self.board8):
+                    self.x += 3
+                    self.y += 6
+                elif self.wincheck(self.oppid,self.board8):
+                    self.x += 3
+                    self.y += 6
+                else:
+                    if len(myspots)>0:
+                        self.nextTo(myspots,self.board8)
+                        self.x += 3
+                        self.y += 6
+                    else: 
+                        self.x = random.randint(3,5)
+                        self.y = random.randint(6,8)
+                        
         elif self.VMB == '8':
             for i in self.board9:
                 if i == "0":
                     valid.append(self.board9.index(i))
+                elif i == str(self.myid):
+                    myspots.append(self.board9.index(i))
+            
             if len(valid) == 9:
-                self.x = 6
-                self.y = 6
+                self.x = 8
+                self.y = 8
             else:
-                self.x = random.randint(6,8)
-                self.y = random.randint(6,8)
 
-
+                if self.wincheck(self.myid,self.board9):
+                    self.x += 6
+                    self.y += 6
+                elif self.wincheck(self.oppid,self.board9):
+                    self.x += 6
+                    self.y += 6
+                else:
+                    if len(myspots)>0:
+                        self.nextTo(myspots,self.board9)
+                        self.x += 6
+                        self.y += 6
+                    else: 
+                        self.x = random.randint(6,8)
+                        self.y = random.randint(6,8)
         
 
-    def getlegal(self):
+
+
+
+    def wincheck(self,pid,testboard):
+        win = False
+        
+        if testboard[0] == testboard[1] and testboard[0] == str(pid) and testboard[2] == "0":
+            self.x = 2
+            self.y = 0
+            win = True
+        elif testboard[0] == testboard[2] and testboard[0] == str(pid)and testboard[1] == "0":
+            self.x = 1
+            self.y = 0
+            win = True
+        elif testboard[1] == testboard[2] and testboard[1] == str(pid)and testboard[0] == "0":
+            self.x = 0
+            self.y = 0
+            win = True
+        elif testboard[0] == testboard[3] and testboard[0] == str(pid)and testboard[6] == "0":
+            self.x = 0
+            self.y = 2
+            win = True
+        elif testboard[0] == testboard[6] and testboard[0] == str(pid)and testboard[3] == "0":
+            self.x = 0
+            self.y = 1
+            win = True
+        elif testboard[3] == testboard[6] and testboard[3] == str(pid)and testboard[0] == "0":
+            self.x = 0
+            self.y = 0
+            win = True
+        elif testboard[0] == testboard[4] and testboard[0] == str(pid)and testboard[8] == "0":
+            self.x = 2
+            self.y = 2
+            win = True
+        elif testboard[0] == testboard[8] and testboard[0] == str(pid)and testboard[4] == "0":
+            self.x = 1
+            self.y = 1
+            win = True
+        elif testboard[4] == testboard[8] and testboard[4] == str(pid)and testboard[0] == "0":
+            self.x = 0
+            self.y = 0
+            win = True
+        elif testboard[1] == testboard[4] and testboard[1] == str(pid)and testboard[7] == "0":
+            self.x = 1
+            self.y = 2
+            win = True
+        elif testboard[1] == testboard[7] and testboard[1] == str(pid)and testboard[4] == "0":
+            self.x = 1
+            self.y = 1
+            win = True
+        elif testboard[4] == testboard[7] and testboard[4] == str(pid)and testboard[1] == "0":
+            self.x = 1
+            self.y = 0
+            win = True
+        elif testboard[2] == testboard[4] and testboard[2] == str(pid)and testboard[6] == "0":
+            self.x = 0
+            self.y = 2
+            win = True
+        elif testboard[2] == testboard[6] and testboard[2] == str(pid)and testboard[4] == "0":
+            self.x = 1
+            self.y = 1
+            win = True
+        elif testboard[4] == testboard[6] and testboard[4] == str(pid)and testboard[2] == "0":
+            self.x = 2
+            self.y = 0
+            win = True
+        elif testboard[2] == testboard[5] and testboard[2] == str(pid)and testboard[8] == "0":
+            self.x = 2
+            self.y = 2
+            win = True
+        elif testboard[2] == testboard[8] and testboard[2] == str(pid)and testboard[5] == "0":
+            self.x = 2
+            self.y = 1
+            win = True
+        elif testboard[5] == testboard[8] and testboard[5] == str(pid)and testboard[2] == "0":
+            self.x = 2
+            self.y = 0
+            win = True
+        elif testboard[3] == testboard[4] and testboard[3] == str(pid)and testboard[5] == "0":
+            self.x = 2
+            self.y = 1
+            win = True
+        elif testboard[3] == testboard[5] and testboard[3] == str(pid)and testboard[4] == "0":
+            self.x = 1
+            self.y = 1
+            win = True
+        elif testboard[4] == testboard[5] and testboard[4] == str(pid)and testboard[3] == "0":
+            self.x = 0
+            self.y = 1
+            win = True
+        elif testboard[6] == testboard[7] and testboard[6] == str(pid)and testboard[8] == "0":
+            self.x = 2
+            self.y = 2
+            win = True
+        elif testboard[6] == testboard[8] and testboard[6] == str(pid)and testboard[7] == "0":
+            self.x = 1
+            self.y = 2
+            win = True
+        elif testboard[7] == testboard[8] and testboard[7] == str(pid)and testboard[6] == "0":
+            self.x = 0
+            self.y = 2
+            win = True
+
+        return win
+        
+
+    def nextTo(self,myspots,board):
+        check = False
+        while check == False:
+            for i in myspots:
+                if str(i) == "0":
+                    if board[4] == "0" and board[8] == "0":
+                        self.x = 1
+                        self.y = 1
+                        check = True
+                    elif board[1] == "0" and board[2] == "0":
+                        self.x = 1
+                        self.y = 0
+                        check = True
+                    elif board[3] == "0" and board[6] == "0":
+                        self.x = 0
+                        self.y = 1
+                        check = True
+                elif str(i) == "1":
+                    if board[4] == "0" and board[7] == "0":
+                        self.x = 1
+                        self.y = 1
+                        check = True
+                    elif board[0] == "0" and board[2] == "0":
+                        self.x = 0
+                        self.y = 0
+                        check = True
+                    elif board[2] == "0" and board[1] == "0":
+                        self.x = 2
+                        self.y = 0
+                        check = True
+                elif str(i) == "2":
+                    if board[4] == "0" and board[6] == "0":
+                        self.x = 1
+                        self.y = 1
+                        check = True
+                    elif board[1] == "0" and board[0] == "0":
+                        self.x = 1
+                        self.y = 0
+                        check = True
+                    elif board[5] == "0" and board[8] == "0":
+                        self.x = 2
+                        self.y = 1
+                        check = True
+                elif str(i) == "3":
+                    if board[4] == "0" and board[5] == "0":
+                        self.x = 1
+                        self.y = 1
+                        check = True
+                    elif board[0] == "0" and board[6] == "0":
+                        self.x = 0
+                        self.y = 0
+                        check = True
+                    elif board[6] == "0" and board[0] == "0":
+                        self.x = 0
+                        self.y = 2
+                        check = True
+                elif str(i) == "5":
+                    if board[4] == "0" and board[3] == "0":
+                        self.x = 1
+                        self.y = 1
+                        check = True
+                    elif board[2] == "0" and board[8] == "0":
+                        self.x = 2
+                        self.y = 0
+                        check = True
+                    elif board[8] == "0" and board[2] == "0":
+                        self.x = 2
+                        self.y = 2
+                        check = True
+                elif str(i) == "6":
+                    if board[4] == "0" and board[2] == "0":
+                        self.x = 1
+                        self.y = 1
+                        check = True
+                    elif board[3] == "0" and board[0] == "0":
+                        self.x = 0
+                        self.y = 1
+                        check = True
+                    elif board[7] == "0" and board[8] == "0":
+                        self.x = 1
+                        self.y = 2
+                        check = True
+                elif str(i) == "7":
+                    if board[4] == "0" and board[1] == "0":
+                        self.x = 1
+                        self.y = 1
+                        check = True
+                    elif board[6] == "0" and board[8] == "0":
+                        self.x = 0
+                        self.y = 2
+                        check = True
+                    elif board[8] == "0" and board[6] == "0":
+                        self.x = 2
+                        self.y = 2
+                        check = True
+                elif str(i) == "8":
+                    if board[4] == "0" and board[0] == "0":
+                        self.x = 1
+                        self.y = 1
+                        check = True
+                    elif board[7] == "0" and board[6] == "0":
+                        self.x = 1
+                        self.y = 2
+                        check = True
+                    elif board[5] == "0" and board[2] == "0":
+                        self.x = 2
+                        self.y = 1
+                        check = True
+                elif str(i) == "4":
+                    if board[0] == "0" and board[8] == "0":
+                        self.x = 0
+                        self.y = 0
+                        check = True
+                    elif board[1] == "0" and board[7] == "0":
+                        self.x = 1
+                        self.y = 0
+                        check = True
+                    elif board[2] == "0" and board[6] == "0":
+                        self.x = 2
+                        self.y = 0
+                        check = True
+                    elif board[3] == "0" and board[5] == "0":
+                        self.x = 0
+                        self.y = 1
+                        check = True
+                    elif board[5] == "0" and board[3] == "0":
+                        self.x = 2
+                        self.y = 1
+                        check = True
+                    elif board[6] == "0" and board[2] == "0":
+                        self.x = 0
+                        self.y = 2
+                        check = True
+                    elif board[7] == "0" and board[1] == "0":
+                        self.x = 1
+                        self.y = 2
+                        check = True
+                    elif board[8] == "0" and board[0] == "0":
+                        self.x = 2
+                        self.y = 2
+                        check = True
+            
+    
+    def getlegal(self,myid):
         
         legal = False
-
+        
         while legal == False:
                 
-            self.getmove()
+            self.getmove(myid)
             
             if self.table[self.x][self.y] == "0":
                 legal = True
             else:
                 legal = False
-            
-
-        

@@ -8,6 +8,8 @@ def __main__():
         
         line = sys.stdin.readline().rstrip('\r\n')
         parts = line.split(" ")
+        '''with open('test.txt', 'a') as the_file:
+            the_file.write(str(line) +"\n\n")'''
 
         if parts[0] == "settings":
             #store settings
@@ -25,10 +27,7 @@ def __main__():
                 
             elif parts[1] == "your_botid":
                 myid = int(parts[2])
-                if myid == 1:
-                    oppid = 2
-                else:
-                    oppid = 1
+                
 
 
         elif parts[0] == "update":
@@ -42,7 +41,7 @@ def __main__():
 
         elif parts[0] == "action":
  
-            currentboard.getlegal()
+            currentboard.getlegal(myid)
             x = currentboard.x
             y = currentboard.y
             
